@@ -26,7 +26,8 @@ data Bool = False | True
 
 instance Show Bool where
 
-    show = undefined
+    show True = "true"
+    show False = "false"
 
 instance Eq Bool where
 
