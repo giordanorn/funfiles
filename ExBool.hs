@@ -29,31 +29,41 @@ instance Show Bool where
     show True = "true"
     show False = "false"
 
-instance Eq Bool where
-
-    (==) = undefined
-
-instance Ord Bool where
-
-    (<=) = undefined
-
 instance Enum Bool where
 
     toEnum  = undefined
 
     fromEnum  = undefined
 
--- conjunction (and)
+-- conjunction (AND)
 (&&) :: Bool -> Bool -> Bool
 (&&) = undefined
 
 infixr 3 &&
 
--- disjunction (or)
+-- disjunction (OR)
 (||) :: Bool -> Bool -> Bool
 (||) = undefined
 
 infixr 2 ||
+
+-- NAND (Sheffer stroke)
+(/|\) :: Bool -> Bool -> Bool
+(/|\) = undefined
+
+infixr 2 /|\
+
+-- NOR (aka: Peirce arrow or Quine dagger)
+(\|/) :: Bool -> Bool -> Bool
+(\|/) = undefined
+
+infixr 2 \|/
+
+-- XOR (exclusive disjunction)
+(<=/=>) :: Bool -> Bool -> Bool
+(<=/=>) = undefined
+
+infixr 2 <=/=>
 
 -- boolean negation
 not :: Bool -> Bool
