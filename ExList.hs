@@ -77,6 +77,13 @@ infixl 5 +++
 -- maximum
 
 -- take
+take :: Int -> [a] -> [a]
+take 0 _      = []
+take _ []     = []
+take n (x:xs)
+    | n >= 0    = x : take (n - 1) xs
+    | otherwise = error "can't take a negative number of elements in a list"
+
 -- drop
 
 -- takeWhile

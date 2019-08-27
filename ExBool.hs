@@ -71,7 +71,8 @@ not = undefined
 
 -- if-then-else expression
 ifThenElse :: Bool -> a -> a -> a
-ifThenElse = undefined
+ifThenElse True fst _ = fst
+ifThenElse _ _ snd = snd
 
 -- logical "implies"
 (==>) :: Bool -> Bool -> Bool
