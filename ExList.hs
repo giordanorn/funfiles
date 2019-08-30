@@ -22,22 +22,28 @@ import qualified Data.Char as C
 -- You MUST NOT use ANY of these in your code
 
 head :: [a] -> a
-head = undefined
+head []    = error "empty list"
+head (x:_) = x
 
 tail :: [a] -> [a]
-tail = undefined
+tail []     = error "empty list"
+tail (_:xs) = xs
 
 null :: [a] -> Bool
-null = undefined
+null [] = True
+null _  = False
 
 length :: Integral i => [a] -> i
-length = undefined
+length []     = 0
+length (x:xs) = length xs + 1
 
 sum :: Num a => [a] -> a
-sum = undefined
+sum []     = 0
+sum (x:xs) = sum xs + x
 
 product :: Num a => [a] -> a
-product = undefined
+product []     = 1
+product (x:xs) = product xs * x
 
 append :: a -> [a] -> [a]
 append x []     = [x]
@@ -58,7 +64,8 @@ infixr 5 ++
 
 -- (snoc is cons written backwards)
 snoc :: a -> [a] -> [a]
-snoc = undefined
+snoc x []     = [x]
+snoc x (y:ys) = y : (snoc x ys)
 
 (<:) :: [a] -> a -> [a]
 (<:) = flip snoc
@@ -74,6 +81,10 @@ xs +++ (y:ys) = (xs +++ [y]) +++ ys
 infixl 5 +++
 
 -- minimum
+minimum :: [a] -> a
+minimum []     = error "empty list"
+minimum (x:xs) = undefined
+
 -- maximum
 
 -- take
@@ -82,12 +93,27 @@ take 0 _      = []
 take _ []     = []
 take n (x:xs)
     | n >= 0    = x : take (n - 1) xs
-    | otherwise = error "can't take a negative number of elements in a list"
+    | otherwise = error "negative number"
 
 -- drop
+drop :: Int -> [a] -> [a]
+drop 0 l      = l
+drop _ []     = []
+drop n (x:xs) = drop (n - 1) xs
 
 -- takeWhile
+takeWhile :: (a -> Bool) -> [a] -> [a]
+takeWhile p []  = []
+takeWhile p (x:xs)
+    | p x       = x : takeWhile p xs
+    | otherwise = xs
+
 -- dropWhile
+dropWhile :: (a -> Bool) -> [a] -> [a]
+dropWhile p []  = []
+dropWhile p (x:xs)
+    | p x       = dropWhile p xs
+    | otherwise = x : xs
 
 -- tails
 -- init
