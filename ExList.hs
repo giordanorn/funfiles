@@ -57,7 +57,6 @@ reverse (x:xs) = append x (reverse xs)
 []     ++ l = l
 (x:xs) ++ l = x : (xs ++ l)
 
-
 -- right-associative for performance!
 -- (what?!)
 infixr 5 ++
@@ -81,6 +80,7 @@ xs +++ (y:ys) = (xs +++ [y]) +++ ys
 infixl 5 +++
 
 -- minimum
+-- need Ord maybe?
 minimum :: [a] -> a
 minimum []     = error "empty list"
 minimum (x:xs) = undefined
@@ -116,8 +116,20 @@ dropWhile p (x:xs)
     | otherwise = x : xs
 
 -- tails
+tails :: [a] -> [[a]]
+tails []     = [[]]
+tails (x:xs) = (x : xs) : tails xs
+
 -- init
+init :: [a] -> [a]
+init []     = error "empty list"
+init [x]    = []
+init (x:xs) = x : init xs
+
 -- inits
+inits :: [a] -> [[a]]
+inits []     = [[]]
+inits (x:xs) = []:[ x:ys | ys <- inits xs]
 
 -- subsequences
 
