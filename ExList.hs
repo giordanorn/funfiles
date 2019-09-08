@@ -5,7 +5,7 @@ import Prelude
     , Num(..) , Integral(..) , Enum(..) , Ord(..) , Eq(..)
     , not , (&&) , (||)
     , (.) , ($)
-    , flip , curry , uncurry
+    , curry , uncurry
     , otherwise , error , undefined
     )
 import qualified Prelude   as P
@@ -35,7 +35,7 @@ null _  = False
 
 length :: Integral i => [a] -> i
 length []     = 0
-length (x:xs) = length xs + 1
+length (_:xs) = 1 + length xs
 
 sum :: Num a => [a] -> a
 sum []     = 0
@@ -45,13 +45,9 @@ product :: Num a => [a] -> a
 product []     = 1
 product (x:xs) = product xs * x
 
-append :: a -> [a] -> [a]
-append x []     = [x]
-append x (y:ys) = y : append x ys
-
 reverse :: [a] -> [a]
 reverse []     = []
-reverse (x:xs) = append x (reverse xs)
+reverse (x:xs) = (reverse xs) <: x
 
 (++) :: [a] -> [a] -> [a]
 []     ++ l = l
@@ -64,10 +60,13 @@ infixr 5 ++
 -- (snoc is cons written backwards)
 snoc :: a -> [a] -> [a]
 snoc x []     = [x]
-snoc x (y:ys) = y : (snoc x ys)
+snoc x (y:ys) = y : snoc x ys
 
 (<:) :: [a] -> a -> [a]
 (<:) = flip snoc
+
+flip :: (a -> b -> c) -> b -> a -> c
+flip f = \x -> (\y -> f y x)
 
 -- different implementation of (++)
 (+++) :: [a] -> [a] -> [a]
@@ -80,15 +79,16 @@ xs +++ (y:ys) = (xs +++ [y]) +++ ys
 infixl 5 +++
 
 -- minimum
--- need Ord maybe?
-minimum :: [a] -> a
+minimum :: Ord a => [a] -> a
 minimum []     = error "empty list"
-minimum (x:xs) = undefined
+minimum [x]    = x
+minimum (x:xs) = min x (minimum xs)
 
 -- maximum
+-- maximíum :: Ord a => [a] -> a
 
 -- take
-take :: Int -> [a] -> [a]
+take :: Integral i => i -> [a] -> [a]
 take 0 _      = []
 take _ []     = []
 take n (x:xs)
@@ -96,10 +96,10 @@ take n (x:xs)
     | otherwise = error "negative number"
 
 -- drop
-drop :: Int -> [a] -> [a]
+drop :: Integral i =: i -> [a] -> [a]
 drop 0 l      = l
 drop _ []     = []
-drop n (x:xs) = drop (n - 1) xs
+drop n (_:xs) = drop (n - 1) xs
 
 -- takeWhile
 takeWhile :: (a -> Bool) -> [a] -> [a]

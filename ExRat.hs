@@ -5,14 +5,13 @@ module ExRat
     , numerator
     ) where
 
--- define Rat:
-data Rat
+data Rat = Rat Integer Integer
 
 instance Show Rat where
     show = undefined
 
 instance Eq Rat where
-    (==) = undefined
+    Rat x y == Rat n m = x * m == n * y
 
 instance Num Rat where
     (+) = undefined
