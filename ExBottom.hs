@@ -25,6 +25,14 @@ bottomBool True  = 1
 -- Nat
 
 -- Box α
+data Box a = Box a
+    deriving (Show, Eq)
+
+-- bottomBool :: Box Bool
+-- bottomBool = bottomBool
+
+bottom :: a
+bottom = bottom
 
 -- Tuples: (α,β)
 

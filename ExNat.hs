@@ -24,15 +24,26 @@ import Prelude
 -- (Hint: recursion is your friend!)
 
 data Nat = Zero | Succ Nat
+    deriving ( Eq )
+
+data NatErro = Nat | Erro
+    deriving ( Eq )
+
+head' :: [Nat] -> NatErro
+head' []     = Erro
+head' (n:ns) = n
 
 instance Show Nat where
 
     show Zero     = "O"
     show (Succ n) = "S" ++ show n
 
-instance Eq Nat where
+-- instance Eq Nat where
+-- 
+--     (==) = undefined
 
-    (==) = undefined
+infinity :: Nat -> Nat
+infinity n = Succ $ infinity n
 
 instance Ord Nat where
 
