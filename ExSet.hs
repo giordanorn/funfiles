@@ -27,51 +27,41 @@ module ExSet
     , map
     ) where
 
-import Prelude
-    ( Char , String , Int , Integer , Double , Float , Bool(..)
-    , Num(..) , Integral(..) , Enum(..) , Ord(..) , Eq(..)
-    , Show(..)
-    , Maybe(..) , Either(..)
-    , not , (&&) , (||)
-    , (.) , ($)
-    , flip , curry , uncurry
-    , otherwise , error , undefined
-    )
-import qualified Prelude   as P
 import qualified Data.List as L
-import qualified Data.Char as C
 
 data Set a = Set [a]
+
+-- CAUTION: you may need to add constraints to your types and instances!
 
 instance Eq (Set a) where
     xs == ys  = undefined
 
-instance Show (Set a) where
-    show xs = "{ please define show }"
-
--- CAUTION: you may need to add constraints to your types!
+instance Show a => Show (Set a) where
+    show (Set [])     = "{}"
+    show (Set (x:xs)) = undefined
 
 -- smart constructor
 set :: [a] -> Set a
 set = fromList
 
 empty :: Set a -> Bool
-empty = undefined
+empty (Set []) = True
+empty _        = False
 
 singleton :: a -> Set a
-singleton = undefined
+singleton x = Set [x]
 
 fromList :: [a] -> Set a
-fromList = undefined
+fromList xs = (Set xs)
 
 toList :: Set a -> [a]
-toList = undefined
+toList (Set xs) = xs
 
 powerSet :: Set a -> Set (Set a)
 powerSet = undefined
 
 insert :: a -> Set a -> Set a
-insert = undefined
+insert x (Set xs) = Set (x:xs)
 
 delete :: a -> Set a -> Set a
 delete = undefined
@@ -101,7 +91,7 @@ pairwiseDisjoint :: Set (Set a) -> Bool
 pairwiseDisjoint = undefined
 
 union :: Set a -> Set a -> Set a
-union = undefined
+union (Set xs) (Set ys) = Set (xs L.++ ys)
 
 inter :: Set a -> Set a -> Set a
 inter = undefined
