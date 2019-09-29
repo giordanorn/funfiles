@@ -29,10 +29,6 @@ data Nat = Zero | Succ Nat
 data NatErro = Nat | Erro
     deriving ( Eq )
 
-head' :: [Nat] -> NatErro
-head' []     = Erro
-head' (n:ns) = n
-
 instance Show Nat where
 
     show Zero     = "O"
@@ -41,9 +37,6 @@ instance Show Nat where
 -- instance Eq Nat where
 -- 
 --     (==) = undefined
-
-infinity :: Nat -> Nat
-infinity n = Succ $ infinity n
 
 instance Ord Nat where
 
