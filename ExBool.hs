@@ -49,7 +49,9 @@ infixr 2 ||
 
 -- NAND (Sheffer stroke)
 (/|\) :: Bool -> Bool -> Bool
-(/|\) = undefined
+(/|\) False _ = True 
+(/|\) _ False = True 
+(/|\) True True = False 
 
 infixr 2 /|\
 
