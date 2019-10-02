@@ -37,13 +37,13 @@ instance Enum Bool where
 
 -- conjunction (AND)
 (&&) :: Bool -> Bool -> Bool
-(&&) = undefined
+(&&) x y = ( x /|\ y ) /|\ ( x /|\ y )
 
 infixr 3 &&
 
 -- disjunction (OR)
 (||) :: Bool -> Bool -> Bool
-(||) = undefined
+(||) x y = (( (x /|\ x) /|\ (y /|\ y) ) /|\ ( (x /|\ x) /|\ (y /|\ y) )) /|\ (( (x /|\ x) /|\ (y /|\ y) ) /|\ ( (x /|\ x) /|\ (y /|\ y) ))
 
 infixr 2 ||
 
@@ -69,7 +69,7 @@ infixr 2 <=/=>
 
 -- boolean negation
 not :: Bool -> Bool
-not = undefined
+not x = x /|\ x
 
 -- if-then-else expression
 ifThenElse :: Bool -> a -> a -> a
