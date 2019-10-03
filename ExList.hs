@@ -96,7 +96,7 @@ take n (x:xs)
     | otherwise = error "negative number"
 
 -- drop
-drop :: Integral i =: i -> [a] -> [a]
+drop :: Integral i => i -> [a] -> [a]
 drop 0 l      = l
 drop _ []     = []
 drop n (_:xs) = drop (n - 1) xs
@@ -136,8 +136,21 @@ inits (x:xs) = []:[ x:ys | ys <- inits xs]
 -- any
 -- all
 
+any :: (a -> Bool) -> [a] -> Bool
+any p xs = L.foldr (\x acc -> p x `or`  acc) False xs
+
+all :: (a -> Bool) -> [a] -> Bool
+all p xs = L.foldr (\x acc -> p x `and`  acc) True xs
+
 -- and
 -- or
+and :: (Bool -> Bool -> Bool)
+and True True = True
+and _ _ = False
+
+or :: (Bool -> Bool -> Bool)
+or False False = False
+or _ _ = True
 
 -- concat
 
@@ -180,7 +193,8 @@ inits (x:xs) = []:[ x:ys | ys <- inits xs]
 
 -- checks if the letters of a phrase form a palindrome (see below for examples)
 palindrome :: String -> Bool
-palindrome = undefined
+palindrome xs = all (\x -> C.toLower (P.fst x) == C.toLower (P.snd x)) (L.zip cleanList (L.reverse cleanList))
+    where cleanList = [x | x <- xs, not $ C.isSpace x]
 
 {-
 
