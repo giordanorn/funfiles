@@ -12,32 +12,37 @@ import Prelude hiding
     )
 
 sum :: Num a => [a] -> a
-sum = undefined
+sum xs = foldr (+) 0 xs
+--sum [] = 0
+--sum (x:xs) = x + sum xs
 
 product :: Num a => [a] -> a
-product = undefined
+product xs = foldr (*) 1 xs
 
 length :: Integral i => [a] -> i
-length = undefined
+length xs = foldr (\x acc -> 1 + acc) 0 xs
 
 concat :: [[a]] -> [a]
-concat = undefined
+concat xs = foldr (++) [] xs
 
-filter :: undefined
-filter = undefined
+filter :: (a -> Bool) -> [a] -> [a] 
+filter p xs = [x | x <- xs , p x]
 
-map :: undefined
-map = undefined
+map :: (a -> b) -> [a] -> [b]
+map f xs = [f x | x <- xs]
 
-any :: undefined
-any = undefined
+any :: (a -> Bool) -> [a] -> Bool
+any p xs = foldr (\x acc -> p x `or`  acc) False xs
 
-all :: undefined
-all = undefined
+all :: (a -> Bool) -> [a] -> Bool
+all p xs = foldr (\x acc -> p x `and`  acc) True xs
 
-and :: undefined
-and = undefined
 
-or :: undefined
-or = undefined
+and :: (Bool -> Bool -> Bool)
+and True True = True
+and _ _ = False
+
+or :: (Bool -> Bool -> Bool)
+or False False = False
+or _ _ = True
 
