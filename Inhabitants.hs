@@ -17,13 +17,14 @@ cS :: (a -> b -> c) -> (a -> b) -> (a -> c)
 cS f g x = f x (g x)
 
 cB :: (b -> c) -> ((a -> b) -> (a -> c))
-cB = undefined
+cB f g = f . g
 
 cW :: (a -> (a -> b)) -> (a -> b)
-cW = undefined
+cW f x = f x x 
 
 pL :: ((a -> b) -> a) -> a
-pL = undefined
+pL f = undefined
+-- boo
 
 p1 :: (a,b) -> a
 p1 (x,y) = x
