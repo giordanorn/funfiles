@@ -12,19 +12,19 @@ type Boom a = a -> Bottom
 -- Can you define proper inhabitants for the following types?
 
 bb :: Bottom -> Bottom
-bb = undefined
+bb x = x
 
 bu :: Bottom -> Unit
-bu = undefined
+bu x = Unit
 
 ub :: Unit -> Bottom
-ub = undefined
+ub x = undefined
 
 uu :: Unit -> Unit
-uu = undefined
+uu x = x
 
 nni :: a -> Boom (Boom a)
-nni = undefined
+nni x y = y x
 
 nne :: Boom (Boom a) -> a
 nne = undefined
