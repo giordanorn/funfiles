@@ -8,6 +8,7 @@ class Funktor f where
   (<$) :: b        -> f a -> f b
   (<$) = fmap . const
 
+  -- ALGEBRAIC LAWS
 
 instance Funktor [] where
     fmap = map
