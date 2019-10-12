@@ -27,7 +27,16 @@ val (Atom n)    = n
 val (Plus s t)  = val s + val t
 val (Times s t) = val s * val t
 
--- step should make only 1 step of calculation on a given Arith
+--step should make only 1 step of calculation on a given Arith
 step :: Arith -> Arith
-step = undefined
+step (Plus (Atom x) (Atom y)) = Atom $ x + y
+step (Times (Atom x) (Atom y)) = Atom $ x * y
+step (Plus s t) =
+    case s of 
+    (Atom _) -> Plus s (step t)
+    _        -> Plus (step s) t
+step (Times s t) = 
+    case s of 
+    (Atom _) -> Times s (step t)
+    _        -> Times (step s) t
 
