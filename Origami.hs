@@ -10,6 +10,7 @@ import Prelude hiding
     , any , all
     , and , or
     , takeWhile , dropWhile
+    , scanr , scanl
     )
 
 import qualified Prelude as P
@@ -20,23 +21,25 @@ import qualified Prelude as P
 
 -- foldr (#) v [x1, x2, x3, x4] = (x1 # (x2 # (x3 # (x4 # v))))
 foldr :: (a -> b -> b) -> b -> [a] -> b
-foldr op v []     = v
-foldr op v (x:xs) = x `op` foldr op v xs
+foldr (#) v []     = v
+foldr (#) v (x:xs) = x # foldr (#) v xs
 
 -- foldl (#) v [x1, x2, x3, x4] = ((((v # x1) # x2) # x3) # x4)
 foldl :: (b -> a -> b) -> b -> [a] -> b
-foldl op v []     = v
-foldl op v (x:xs) = foldl op v xs `op` x
+foldl (#) v []     = v
+foldl (#) v (x:xs) = foldl (#) v xs # x
 
 -- foldr1 (#) [x1, x2, x3, x4] = (x1 # (x2 # (x3 # x4)))
 foldr1 :: (a -> a -> a) -> [a] -> a
-foldr1 op xs = foldr op (last xs) xs
--- foldr1 op []     = error "empty list"
--- foldr1 op (x:xs) = foldr op x xs
+foldr1 (#) []     = error "empty list"
+foldr1 (#) [x]    = x
+foldr1 (#) (x:xs) = x # foldr1 (#) xs
 
 -- foldl1 (#) [x1, x2, x3, x4]  = (((x1 # x2) # x3) # x4)
-foldl1 :: undefined
-foldl1 = undefined
+foldl1 :: (a -> a -> a) -> [a] -> a
+foldl1 (#) []     = error "empty list"
+foldl1 (#) [x]    = x
+foldl1 (#) (x:xs) = foldl1 (#) xs # x
 
 
 --
@@ -52,28 +55,35 @@ foldl1 = undefined
 
 scanl :: (b -> a -> b) -> b -> [a] -> [b]
 scanl = undefined
+-- scanl (#) v []     = [v]
+-- scanl (#) v [x]    = [v, v # x]
+-- scanl (#) v (x:y:xs) = scanl (#) v xs ++ [x]
 
 scanr :: (a -> b -> b) -> b -> [a] -> [b]
-scanr = undefined
+scanr (#) v []     = [v]
+-- scanr (#) v [x]    = [x # v, v]
+-- scanr (#) v [y,x]  = [y # (x # v), x # v, v]
+scanr (#) v (x:xs) = x # y : ys
+        where (y:ys) = scanr (#) v xs 
 
 --
 -- Define all of the following functions as folds:
 --
 
 sum :: Num a => [a] -> a
-sum = undefined
+sum = foldr (+) 0
 
 product :: Num a => [a] -> a
-product = undefined
+product = foldr (*) 1
 
 concat :: [[a]] -> [a]
-concat = undefined
+concat = foldr (++) []
 
 any :: (a -> Bool) -> [a] -> Bool
-any = undefined
+any p = foldr (||) False . map p
 
 all :: (a -> Bool) -> [a] -> Bool
-all = undefined
+all p = foldr (&&) True . map p
 
 and :: [Bool] -> Bool
 and = undefined
